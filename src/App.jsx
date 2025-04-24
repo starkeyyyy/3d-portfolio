@@ -37,7 +37,6 @@ function App() {
      <Canvas style={{height: "100%" , width:"100%"}} onMouseMove={handleMouseMove}>
      <OrthographicCamera ref={cameraRef} makeDefault position={[ -120 , 70 , -120]}  zoom={20}/>
      <ambientLight intensity={10}/>
-      <OrbitControls/>
       <Room mouse = {mouseRef.current} camera = {cameraRef.current} showAbout = {setShowAbout} showProjects={setShowProjects} showSkills={setShowSkills}/>
       <Grid row={10} col={10} planeWidth={15} planeDepth={15} spacing={0}/>
       
