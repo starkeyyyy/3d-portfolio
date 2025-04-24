@@ -8,7 +8,7 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { useThree, useFrame } from "@react-three/fiber";
 
-export function Room({ mouse, camera, ...props }) {
+export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...props }) {
   const [hovered, setHovered] = React.useState(false);
   const [hovered2, setHovered2] = React.useState(false);
   const [hovered3, setHovered3] = React.useState(false);
@@ -31,32 +31,39 @@ export function Room({ mouse, camera, ...props }) {
     number===3? setHovered3(true) : setHovered3(false);
   };
   const handleHideMarker = (number) => {
-    number===1? setHovered(false) : '';
+    number===1? setHovered(false)  : '';
     number===2? setHovered2(false) : '';
     number===3? setHovered3(false) : '';
   };
+
+  useEffect(() => {
+    showAbout(hovered)
+    showProjects(hovered2)
+    showSkills(hovered3)
+
+  },[hovered, hovered2, hovered3])
 
   useFrame(() => {
     if (roomRef.current) {
       const maxTilt = THREE.MathUtils.degToRad(5);
 
-      const targetRotX = THREE.MathUtils.clamp(
-        mouse.y * maxTilt,
-        -maxTilt,
-        maxTilt
-      );
       const targetRotY = THREE.MathUtils.clamp(
         mouse.x * maxTilt,
         -maxTilt,
         maxTilt
       );
+     
+
 
       roomRef.current.rotation.y = THREE.MathUtils.lerp(
         roomRef.current.rotation.y,
         targetRotY,
         0.1
       );
+    
+
     }
+   
 
     if (hitBox1.current && hitBox2.current && hitBox3.current) {
       // Function to lerp scale
@@ -64,14 +71,11 @@ export function Room({ mouse, camera, ...props }) {
       const lerpScale = (hitBox, targetScale) => {
         const currentScale = hitBox.current.scale;
         // Gradually transition scale based on target value
-        currentScale.x = THREE.MathUtils.lerp(currentScale.x, targetScale, 0.1); // Slow lerp for smoother transition
-        currentScale.y = THREE.MathUtils.lerp(currentScale.y, targetScale, 0.1);
-        currentScale.z = THREE.MathUtils.lerp(currentScale.z, targetScale, 0.1);
+        currentScale.x = THREE.MathUtils.lerp(currentScale.x, targetScale, 0.5); // Slow lerp for smoother transition
+        currentScale.y = THREE.MathUtils.lerp(currentScale.y, targetScale, 0.5);
+        currentScale.z = THREE.MathUtils.lerp(currentScale.z, targetScale, 0.2);
       };
-      const targetScale = hovered ? 1 : 0; // Target scale based on hover state
-      const targetScale2 = hovered2 ? 1 : 0; // Target scale based on hover state
-      const targetScale3 = hovered3 ? 1 : 0; // Target scale based on hover state
-
+      
       hovered? lerpScale(hitBox1, 1) : lerpScale(hitBox1, 0)
       hovered2? lerpScale(hitBox2, 1) : lerpScale(hitBox2, 0)
       hovered3? lerpScale(hitBox3, 1) : lerpScale(hitBox3, 0)
@@ -496,7 +500,7 @@ export function Room({ mouse, camera, ...props }) {
         name="base-plane"
         geometry={nodes["base-plane"].geometry}
         material={planeTextureMaterial}
-        position={[28.266, 0, 23.564]}
+        position={[28.266, -0.3, 23.564]}
         scale={105.587}
       />
     </group>
