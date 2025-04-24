@@ -21,7 +21,7 @@ const LoaderPage = () => {
   return (
     <div className='loader-page'>
     <div className={`loader-page-top ${isLoaded ? 'hide-loader-top' : ''}`}>
-      {!isLoaded && <div style={{ fontSize: '24px', marginBottom: '20px' , position: 'absolute', top: '90%', left: '50%', color: 'white' , fontFamily: 'sans-serif'}}>
+      {!isLoaded && <div style={{ fontSize: '24px', marginBottom: '20px' , position: 'absolute', top: '90%', left: '50%', color: 'white' , fontFamily: 'sans-serif' , transform:'translate(-50%)'}}>
         Loading... {progress.toFixed(0)}%
       </div>}
 
