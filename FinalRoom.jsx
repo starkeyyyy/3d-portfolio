@@ -74,9 +74,9 @@ export function Model(props) {
       <mesh name="hitbox1" geometry={nodes.hitbox1.geometry} material={materials['Material.007']} position={[-0.164, 4.18, -3.038]} rotation={[Math.PI, 0, 0]} />
       <mesh name="hitbox2" geometry={nodes.hitbox2.geometry} material={materials['Material.010']} position={[11.926, 7.236, -2.802]} rotation={[Math.PI / 2, 0, Math.PI / 2]} scale={[1, 1.261, 1]} />
       <mesh name="hitbox3" geometry={nodes.hitbox3.geometry} material={materials['Material.011']} position={[1.798, 2.833, 8.902]} />
-      <mesh name="hitbox_marker_1" geometry={nodes.hitbox_marker_1.geometry} material={materials['Material.114']} position={[4.226, 8.115, 2.874]} rotation={[Math.PI, 0, Math.PI]} />
-      <mesh name="hitbox_marker_2" geometry={nodes.hitbox_marker_2.geometry} material={materials['Material.115']} position={[12.569, 9.628, 1.076]} rotation={[Math.PI, 0, Math.PI]} scale={[0.291, 1.017, 0.971]} />
-      <mesh name="hitbox_marker_3" geometry={nodes.hitbox_marker_3.geometry} material={materials['Material.116']} position={[6.706, 8.115, 10.856]} rotation={[Math.PI, 0, Math.PI]} scale={[1.233, 1, 0.408]} />
+      <mesh name="marker_1" geometry={nodes.marker_1.geometry} material={materials['Material.046']} position={[12.28, 9.779, 1.376]} rotation={[Math.PI, 0, Math.PI]} />
+      <mesh name="marker_2" geometry={nodes.marker_2.geometry} material={materials['Material.114']} position={[4.226, 8.115, 2.874]} rotation={[Math.PI, 0, Math.PI]} />
+      <mesh name="marker_3" geometry={nodes.marker_3.geometry} material={materials['Material.047']} position={[7.835, 6.492, 10.74]} rotation={[Math.PI, 0, Math.PI]} />
       <group name="walls" position={[2.629, 0.631, 1.002]} scale={10.399}>
         <mesh name="walls_1" geometry={nodes.walls_1.geometry} material={materials['wall color']} />
         <mesh name="walls_2" geometry={nodes.walls_2.geometry} material={materials['Material.003']} />

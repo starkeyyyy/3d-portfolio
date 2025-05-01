@@ -8,7 +8,15 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { useThree, useFrame } from "@react-three/fiber";
 
-export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...props }) {
+export function Room({
+  showAbout,
+  showSkills,
+  showProjects,
+  showSideBar,
+  mouse,
+  camera,
+  ...props
+}) {
   const [hovered, setHovered] = React.useState(false);
   const [hovered2, setHovered2] = React.useState(false);
   const [hovered3, setHovered3] = React.useState(false);
@@ -19,29 +27,30 @@ export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...
     hitBox3.current.scale.set(0, 0, 0);
   }, []);
 
-
   const roomRef = useRef();
   const hitBox1 = useRef();
   const hitBox2 = useRef();
   const hitBox3 = useRef();
 
   const handleMarker = (number) => {
-    number===1? setHovered(true) : setHovered(false);
-    number===2? setHovered2(true) : setHovered2(false);
-    number===3? setHovered3(true) : setHovered3(false);
+    number === 1 ? setHovered(true) : setHovered(false);
+    number === 2 ? setHovered2(true) : setHovered2(false);
+    number === 3 ? setHovered3(true) : setHovered3(false);
   };
   const handleHideMarker = (number) => {
-    number===1? setHovered(false)  : '';
-    number===2? setHovered2(false) : '';
-    number===3? setHovered3(false) : '';
+    number === 1 ? setHovered(false) : "";
+    number === 2 ? setHovered2(false) : "";
+    number === 3 ? setHovered3(false) : "";
   };
 
+  const handleSideBar = (num) => {
+    showSideBar(num);
+  }
   useEffect(() => {
-    showAbout(hovered)
-    showProjects(hovered2)
-    showSkills(hovered3)
-
-  },[hovered, hovered2, hovered3])
+    showAbout(hovered2);
+    showProjects(hovered);
+    showSkills(hovered3);
+  }, [hovered, hovered2, hovered3]);
 
   useFrame(() => {
     if (roomRef.current) {
@@ -52,22 +61,17 @@ export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...
         -maxTilt,
         maxTilt
       );
-     
-
 
       roomRef.current.rotation.y = THREE.MathUtils.lerp(
         roomRef.current.rotation.y,
         targetRotY,
         0.1
       );
-    
-
     }
-   
 
     if (hitBox1.current && hitBox2.current && hitBox3.current) {
       // Function to lerp scale
-      
+
       const lerpScale = (hitBox, targetScale) => {
         const currentScale = hitBox.current.scale;
         // Gradually transition scale based on target value
@@ -75,13 +79,10 @@ export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...
         currentScale.y = THREE.MathUtils.lerp(currentScale.y, targetScale, 0.5);
         currentScale.z = THREE.MathUtils.lerp(currentScale.z, targetScale, 0.2);
       };
-      
-      hovered? lerpScale(hitBox1, 1) : lerpScale(hitBox1, 0)
-      hovered2? lerpScale(hitBox2, 1) : lerpScale(hitBox2, 0)
-      hovered3? lerpScale(hitBox3, 1) : lerpScale(hitBox3, 0)
-  
-      
-      
+
+      hovered ? lerpScale(hitBox1, 1) : lerpScale(hitBox1, 0);
+      hovered2 ? lerpScale(hitBox2, 1) : lerpScale(hitBox2, 0);
+      hovered3 ? lerpScale(hitBox3, 1) : lerpScale(hitBox3, 0);
     }
   });
   const { nodes, materials } = useGLTF("./models/finalRoom.glb");
@@ -107,9 +108,10 @@ export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...
     map: planeTexture,
   });
 
+ 
 
 
-  // <group {...props} dispose={null} position={[-15, 0 ,-15]} ref={roomRef}>
+
   return (
     <group {...props} dispose={null} position={[-15, 0, -15]} ref={roomRef}>
       <group
@@ -187,28 +189,28 @@ export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...
             <mesh
               name="Mesh026_1"
               geometry={nodes.Mesh026_1.geometry}
-              material={baseTextureMaterial}
+              material={materials["12 - Defaultss"]}
             />
             <mesh
               name="Mesh026_2"
               geometry={nodes.Mesh026_2.geometry}
-              material={baseTextureMaterial}
+              material={materials["10 - Default"]}
             />
             <mesh
               name="Mesh026_3"
               geometry={nodes.Mesh026_3.geometry}
-              material={baseTextureMaterial}
+              material={materials["Material #87 Slot #4"]}
             />
             <mesh
               name="Mesh026_4"
               geometry={nodes.Mesh026_4.geometry}
-              material={baseTextureMaterial}
+              material={materials["Material #90"]}
             />
           </group>
           <mesh
             name="pivot_hinge"
             geometry={nodes.pivot_hinge.geometry}
-            material={materials["04 - Default"]}
+            material={baseTextureMaterial}
             position={[131.049, -223.44, 0]}
           />
           <mesh
@@ -276,12 +278,12 @@ export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...
         <mesh
           name="Mesh001"
           geometry={nodes.Mesh001.geometry}
-          material={textureMaterial}
+          material={materials.pointer_Mat}
         />
         <mesh
           name="Mesh001_1"
           geometry={nodes.Mesh001_1.geometry}
-          material={textureMaterial}
+          material={materials.symbol_Mat}
         />
       </group>
       <mesh
@@ -437,8 +439,9 @@ export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...
         material={materials["Material.007"]}
         position={[-0.164, 4.18, -3.038]}
         rotation={[Math.PI, 0, 0]}
-        onPointerOver={() => handleMarker(1)}
-        onPointerOut={() => handleHideMarker(1)}
+        onPointerOver={() => handleMarker(2)}
+    onPointerOut={() => handleHideMarker(2)}
+    onPointerDown = {() => handleSideBar(2)}
       />
       <mesh
         name="hitbox2"
@@ -447,8 +450,9 @@ export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...
         position={[11.926, 7.236, -2.802]}
         rotation={[Math.PI / 2, 0, Math.PI / 2]}
         scale={[1, 1.261, 1]}
-        onPointerOver={() => handleMarker(2)}
-        onPointerOut={() => handleHideMarker(2)}
+        onPointerOver={() => handleMarker(1)}
+    onPointerOut={() => handleHideMarker(1)}
+    onPointerDown = {() => handleSideBar(1)}
       />
       <mesh
         name="hitbox3"
@@ -457,32 +461,31 @@ export function Room({showAbout , showSkills , showProjects,  mouse, camera, ...
         position={[1.798, 2.833, 8.902]}
         onPointerOver={() => handleMarker(3)}
         onPointerOut={() => handleHideMarker(3)}
+        onPointerDown = {() => handleSideBar(3)}
       />
       <mesh
-        name="hitbox_marker_1"
-        geometry={nodes.hitbox_marker_1.geometry}
-        material={materials["Material.114"]}
-        position={[4.226, 8.115, 2.874]}
+        name="marker_1"
+        geometry={nodes.marker_1.geometry}
+        material={materials["Material.046"]}
+        position={[12.28, 9.779, 1.376]}
         rotation={[Math.PI, 0, Math.PI]}
         ref={hitBox1}
       />
       <mesh
-        name="hitbox_marker_2"
-        geometry={nodes.hitbox_marker_2.geometry}
-        material={materials["Material.115"]}
-        position={[12.569, 9.628, 1.076]}
+        name="marker_2"
+        geometry={nodes.marker_2.geometry}
+        material={materials["Material.114"]}
+        position={[4.226, 8.115, 2.874]}
         rotation={[Math.PI, 0, Math.PI]}
-        scale={[0.291, 1.017, 0.971]}
         ref={hitBox2}
       />
       <mesh
-        name="hitbox_marker_3"
-        geometry={nodes.hitbox_marker_3.geometry}
-        material={materials["Material.116"]}
-        position={[6.706, 8.115, 10.856]}
+        name="marker_3"
+        geometry={nodes.marker_3.geometry}
+        material={materials["Material.047"]}
+        position={[7.835, 6.492, 10.74]}
         rotation={[Math.PI, 0, Math.PI]}
-        scale={[1.233, 1, 0.408]}
-        ref = {hitBox3}
+        ref={hitBox3}
       />
       <group name="walls" position={[2.629, 0.631, 1.002]} scale={10.399}>
         <mesh
