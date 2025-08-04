@@ -125,7 +125,7 @@ function App() {
             ref={cameraRef}
             makeDefault
             position={[-120, 70, -120]}
-            zoom={20}
+            zoom={25}
           />
           <ambientLight intensity={8} />
           <OrbitControls
